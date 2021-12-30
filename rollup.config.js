@@ -62,7 +62,7 @@ function createIIFEConfig(input, output, globalName) {
       exports: 'named',
       name: globalName,
       globals: {
-        react: 'React',
+        ['solid-js']: 'SolidJS',
       },
     },
     external,
@@ -76,13 +76,9 @@ function createIIFEConfig(input, output, globalName) {
 }
 export default (args) =>
   args['config-cjs']
-    ? [
-        createCommonJSConfig('src/index.ts', 'dist/index.cjs.js'),
-        createCommonJSConfig('src/loadable.ts', 'dist/loadable.cjs.js'),
-      ]
+    ? [createCommonJSConfig('src/index.ts', 'dist/index.cjs.js')]
     : [
         createDeclarationConfig('src/index.ts', 'dist'),
         createESMConfig('src/index.ts', 'dist/index.js'),
-        createIIFEConfig('src/index.ts', 'dist/index.iife.js', 'reactLazily'),
-        createESMConfig('src/loadable.ts', 'dist/loadable.js'),
+        createIIFEConfig('src/index.ts', 'dist/index.iife.js', 'solidjsLazily'),
       ]

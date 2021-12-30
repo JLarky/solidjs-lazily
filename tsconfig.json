@@ -8,7 +8,7 @@
     "moduleResolution": "node",
     "baseUrl": ".",
     "paths": {
-      "react-lazily": ["./src/index.ts"]
+      "solidjs-lazily": ["./src/index.ts"]
     }
   },
   "include": ["src/**/*", "tests/**/*"],
