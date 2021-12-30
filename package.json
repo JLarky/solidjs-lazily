@@ -1,7 +1,7 @@
 {
   "name": "solidjs-lazily",
   "private": true,
-  "version": "0.9.0",
+  "version": "0.1.1",
   "description": "SolidJS wrapper that works with allows you to destruct imported module, so it will work with non default exports",
   "main": "index.cjs.js",
   "module": "index.js",
