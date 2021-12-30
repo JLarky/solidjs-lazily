@@ -6,6 +6,32 @@
 
 solidjs-lazily is a simple wrapper around SolidJS's `lazy` that supports named imports.
 
+## TL;DR
+
+run this
+
+```shell
+npm install solidjs-lazily
+# or
+yarn add solidjs-lazily
+```
+
+write this
+
+```js
+import { lazily } from 'solidjs-lazily'
+const { MyComponent } = lazily(() => import('./MyComponent'))
+```
+
+instead of this
+
+```js
+import { lazy } from 'solid-js'
+const MyComponent = lazy(() => import('./MyComponent'))
+```
+
+## Motivation
+
 Consider that component `MyComponent` is exported with `export default MyComponent` then per solidjs docs you could do:
 
 ```ts
@@ -24,6 +50,7 @@ const MyComponent = lazy(() =>
 With `solidjs-lazily` it becomes:
 
 ```ts
+import { lazily } from 'solidjs-lazily'
 const { MyComponent } = lazily(() => import('./MyComponent'))
 ```
 
