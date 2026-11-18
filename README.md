@@ -6,8 +6,30 @@
 
 solidjs-lazily is a simple wrapper around SolidJS's `lazy` that supports named imports.
 
-> [!IMPORTANT]
-> **solidjs-lazily only works with Solid 1.x.** Solid 2.0 supports named exports in `lazy` out of the box, so you don't need this package anymore. See [Migrating to Solid 2.0](#migrating-to-solid-20).
+> [!TIP]
+> **You might not need this with Solid 2.0.** Solid 2.0's `lazy` supports named exports out of the box:
+>
+> ```ts
+> import { lazy } from 'solid-js'
+> const MyComponent = lazy(() => import('./MyComponent'), { export: 'MyComponent' })
+> ```
+>
+> solidjs-lazily still saves you from repeating the export name, but it's now a convenience, not a necessity. See [Do you need it with Solid 2.0?](#do-you-need-it-with-solid-20)
+
+## Versions
+
+| Solid version | solidjs-lazily version |
+| ------------- | ---------------------- |
+| Solid 2.x     | 1.x                    |
+| Solid 1.x     | 0.1.2                  |
+
+If you're on Solid 1.x, install the last 0.x release:
+
+```shell
+npm install solidjs-lazily@0.1.2
+```
+
+Don't use 0.1.2 with Solid 2.0. It picks the named export at runtime, which Solid 2.0's `lazy` doesn't support during hydration.
 
 ## TL;DR
 
@@ -30,39 +52,56 @@ instead of this
 
 ```js
 import { lazy } from 'solid-js'
-const MyComponent = lazy(() => import('./MyComponent'))
+const MyComponent = lazy(() => import('./MyComponent'), {
+  export: 'MyComponent',
+})
 ```
 
-## Motivation
+## Do you need it with Solid 2.0?
 
-Consider that component `MyComponent` is exported with `export default MyComponent` then per solidjs docs you could do:
-
-```ts
-import { lazy } from 'solid-js'
-const MyComponent = lazy(() => import('./MyComponent'))
-```
-
-But if the component is exported with named export `export const MyComponent = ...` then you have to do:
+In Solid 1.x, `lazy` only worked with default exports, so a named export needed a workaround:
 
 ```ts
+// Solid 1.x
 const MyComponent = lazy(() =>
   import('./MyComponent').then((module) => ({ default: module.MyComponent }))
 )
 ```
 
-With `solidjs-lazily` it becomes:
+Solid 2.0 added the `export` option, so the built-in version is a one-liner:
+
+```ts
+// Solid 2.0
+const MyComponent = lazy(() => import('./MyComponent'), {
+  export: 'MyComponent',
+})
+```
+
+With `solidjs-lazily`, you don't repeat the name, and you can pull several components out of one module in one line:
 
 ```ts
 import { lazily } from 'solidjs-lazily'
-const { MyComponent } = lazily(() => import('./MyComponent'))
+const { Header, Footer } = lazily(() => import('./components'))
 ```
+
+Under the hood that's exactly `lazy(loader, { export: 'Header' })` for each name, so you get the same `preload()` and hydration support as the built-in `lazy`.
+
+Prefer the built-in `lazy` if you don't mind repeating the name, or if your bundler integration injects a `moduleUrl` into `lazy()` calls (used for islands). It can't do that through a wrapper.
+
+### Migrating from solidjs-lazily 0.x (Solid 1.x)
+
+The API is the same. Upgrade both packages together:
+
+```shell
+npm install solid-js@2 solidjs-lazily@1
+```
+
+Note that `Suspense` is called `Loading` in Solid 2.0. See the [Solid 2.0 migration guide](https://github.com/solidjs/solid/blob/main/documentation/solid-2.0/MIGRATION.md) for everything else that changed.
 
 ## Full example
 
-See: https://codesandbox.io/s/solidjs-lazily-example-qvv3y
-
-```ts
-import { createSignal, Suspense } from 'solid-js'
+```tsx
+import { createSignal, Loading } from 'solid-js'
 import { lazily } from 'solidjs-lazily'
 
 const { MyComponent } = lazily(() => import('./MyComponent'))
@@ -72,9 +111,9 @@ const App = () => {
   return (
     <>
       {open() ? (
-        <Suspense fallback={<>Loading...</>}>
+        <Loading fallback={<>Loading...</>}>
           <MyComponent />
-        </Suspense>
+        </Loading>
       ) : (
         <button onClick={() => setOpen(true)}>Load</button>
       )}
@@ -83,35 +122,13 @@ const App = () => {
 }
 ```
 
-## Migrating to Solid 2.0
+Every component returned by `lazily` has a `preload()` method, so you can start loading early:
 
-In Solid 2.0, `lazy` takes an `export` option that picks a named export from the module. Replace `lazily` with `lazy` and the `export` field:
-
-```ts
-// Solid 1.x with solidjs-lazily
-import { lazily } from 'solidjs-lazily'
-const { MyComponent } = lazily(() => import('./MyComponent'))
-
-// Solid 2.0
-import { lazy } from 'solid-js'
-const MyComponent = lazy(() => import('./MyComponent'), { export: 'MyComponent' })
+```tsx
+<button onMouseEnter={() => MyComponent.preload()}>Load</button>
 ```
 
-If you load several components from one module, call `lazy` once per component:
-
-```ts
-const loader = () => import('./components')
-const Header = lazy(loader, { export: 'Header' })
-const Footer = lazy(loader, { export: 'Footer' })
-```
-
-Also note that `Suspense` is called `Loading` in Solid 2.0. Then remove the package:
-
-```shell
-npm uninstall solidjs-lazily
-```
-
-See the [Solid 2.0 migration guide](https://github.com/solidjs/solid/blob/main/documentation/solid-2.0/MIGRATION.md) for everything else that changed.
+For Solid 1.x and solidjs-lazily 0.1.2, use `Suspense` instead of `Loading`. See the [Solid 1 CodeSandbox example](https://codesandbox.io/s/solidjs-lazily-example-qvv3y).
 
 ## Related
 

@@ -4,7 +4,9 @@ import { lazily } from '../src/index'
 
 it('Shows loading for some random component', async () => {
   const f = jest.fn()
-  const { Component } = lazily(() => new Promise((r) => f(r)))
+  const { Component } = lazily(
+    () => new Promise<{ Component: () => null }>((r) => f(r))
+  )
 
   // const App: React.FC = () => {
   //   const [open, setOpen] = React.useReducer(() => true, false)

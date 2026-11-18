@@ -1265,6 +1265,11 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
+"@solidjs/signals@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@solidjs/signals/-/signals-2.0.0.tgz#9142905a67021054711e994b735d79be39c49f05"
+  integrity sha512-jrcT6XTVvsYRpesRp0At/mSUnsWr6jiprK8C93Oat56B8n7X9BMSe58Rxl6qSZUhBN0L+sxm8GzeO7HdhBXvDw==
+
 "@testing-library/jest-dom@^5.16.1":
   version "5.16.1"
   resolved "https://registry.yarnpkg.com/@testing-library/jest-dom/-/jest-dom-5.16.1.tgz#3db7df5ae97596264a7da9696fe14695ba02e51f"
@@ -6285,6 +6290,16 @@ serialize-javascript@^4.0.0:
   dependencies:
     randombytes "^2.1.0"
 
+seroval-plugins@^1.8.0:
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/seroval-plugins/-/seroval-plugins-1.8.0.tgz#1600d792c09548ed6980ec1729aa96c70b78d4c1"
+  integrity sha512-96vBb12rDvPPwdKUgWw1op3fGq8AVBFOr0IllbnM72yR5J9WWXF18cQ4g1XfDO7HCyh2dt70P3XdtyRayP8FWg==
+
+seroval@^1.8.0:
+  version "1.8.2"
+  resolved "https://registry.yarnpkg.com/seroval/-/seroval-1.8.2.tgz#d451ae2866501ecdef3c8ff793acdea85fccd69c"
+  integrity sha512-zmMxi/9MdLK1MKazLmIP6Rk39RuK0Xydd+QHeOYntS37olJeTjB3+nwVj4ce/ZWiZJeRhcO5htfxt0mUzQBscQ==
+
 set-blocking@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/set-blocking/-/set-blocking-2.0.0.tgz#045f9782d011ae9a6803ddd382b24392b3d890f7"
@@ -6440,10 +6455,14 @@ solid-jest@^0.2.0:
     babel-jest "^27.0.0"
     enhanced-resolve-jest "^1.1.0"
 
-solid-js@^1.2.6:
-  version "1.2.6"
-  resolved "https://registry.yarnpkg.com/solid-js/-/solid-js-1.2.6.tgz#54e91ecb78bb6cc78efea2f05f979f6aa71b25ef"
-  integrity sha512-NvPHJ5Vj5f+ZJWIioickrC55seovSkDtm5NzSpnoUk3z4tATv0STpy5iuGNEn51ZORUcwpZzrMAtOCGziXU1XA==
+solid-js@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/solid-js/-/solid-js-2.0.0.tgz#5f4d0a15a323c47d58ce17bd85748b2d56998966"
+  integrity sha512-9zN4uH2OQeQAYbF4BmIzoaa+L5Hb8Dp6kkP6ZXobHQ1FZVICdmzREPDVDBJY7umzdAE8D6zbFfWhxGtagkyslA==
+  dependencies:
+    "@solidjs/signals" "^2.0.0"
+    seroval "^1.8.0"
+    seroval-plugins "^1.8.0"
 
 source-list-map@^2.0.0:
   version "2.0.1"
@@ -6966,10 +6985,10 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typescript@^4.1.2:
-  version "4.5.4"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.5.4.tgz#a17d3a0263bf5c8723b9c52f43c5084edf13c2e8"
-  integrity sha512-VgYs2A2QIRuGphtzFV7aQJduJ2gyfTljngLzjpfW9FoYZF6xuw1W0vW9ghCKLfcWrCFxK81CSGRAvS1pn4fIUg==
+typescript@^5.9.3:
+  version "5.9.3"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.9.3.tgz#5b4f59e15310ab17a216f5d6cf53ee476ede670f"
+  integrity sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw==
 
 unbox-primitive@^1.0.1:
   version "1.0.1"
