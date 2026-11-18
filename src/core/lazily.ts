@@ -1,16 +1,21 @@
-import { Component, lazy } from 'solid-js'
+import { lazy } from 'solid-js'
 
-export const lazily = <T extends {}, U extends keyof T>(
-  loader: (x?: string) => Promise<T>
-) =>
-  new Proxy({} as unknown as T, {
-    get: (_target, componentName: string | symbol) => {
-      if (typeof componentName === 'string') {
-        return lazy(() =>
-          loader(componentName).then((x) => ({
-            default: x[componentName as U] as any as Component<any>,
-          }))
-        )
+export type Lazily<T> = {
+  [K in keyof T]: T[K] & {
+    preload: () => Promise<T>
+    moduleUrl?: string
+  }
+}
+
+export const lazily = <T extends Record<string, any>>(
+  loader: (exportName?: string) => Promise<T>
+): Lazily<T> =>
+  new Proxy({} as Lazily<T>, {
+    get: (_target, exportName: string | symbol) => {
+      if (typeof exportName === 'string') {
+        return lazy(() => loader(exportName), {
+          export: exportName as keyof T & string,
+        })
       }
     },
   })
